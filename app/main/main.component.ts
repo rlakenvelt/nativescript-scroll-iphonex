@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { ScrollView } from "tns-core-modules/ui/scroll-view";
 import scrollView = require("tns-core-modules/ui/scroll-view");
+import * as platformModule from "tns-core-modules/platform";
 
 declare var CGPointMake;
 
@@ -29,7 +30,12 @@ export class MainComponent implements OnInit {
         this.scrollViewHorizontal2 = this._scrollViewHorizontal2.nativeElement;
         this.scrollViewVertical1 = this._scrollViewVertical1.nativeElement;
         this.scrollViewVertical2 = this._scrollViewVertical2.nativeElement;
-        
+        if (parseInt(platformModule.device.sdkVersion) >= 11) {
+            this.scrollViewHorizontal1.ios.contentInsetAdjustmentBehavior = 2;
+            this.scrollViewHorizontal2.ios.contentInsetAdjustmentBehavior = 2;
+            this.scrollViewVertical1.ios.contentInsetAdjustmentBehavior = 2;
+            this.scrollViewVertical2.ios.contentInsetAdjustmentBehavior = 2;
+        }
         this.items = [];
         for (var count = 0; count < 30; count++) {
             this.items.push(count.toString());
@@ -48,7 +54,7 @@ export class MainComponent implements OnInit {
         if (this.native) {
             this.scrollViewVertical2.ios.contentOffset = CGPointMake(0, this.scrollViewVertical1.ios.contentOffset.y);
         } else {
-           this.scrollViewVertical2.scrollToVerticalOffset(args.scrollY, false);
+            this.scrollViewVertical2.scrollToVerticalOffset(args.scrollY, false);
         }
     }
 
