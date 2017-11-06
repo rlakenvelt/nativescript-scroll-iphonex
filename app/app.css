@@ -1,0 +1,23 @@
+
+@import 'nativescript-theme-core/css/core.light.css';
+
+.demoLabelHorizontal {
+    height: 50;
+    padding: 10;
+}
+.demoLabelVertical {
+    width: 150;
+    padding: 10;
+}
+.red {
+    background-color:red;
+    color: white;
+}
+.green {
+    background-color:green;
+    color: white;
+}
+.blue {
+    background-color:blue;
+    color: white;
+}
