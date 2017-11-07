@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { ScrollView } from "tns-core-modules/ui/scroll-view";
+import { ListPicker } from "ui/list-picker";
 import scrollView = require("tns-core-modules/ui/scroll-view");
 import * as platformModule from "tns-core-modules/platform";
 
@@ -13,7 +14,8 @@ declare var CGPointMake;
 export class MainComponent implements OnInit {
 
     public items = [];
-
+    public behaviours = [];
+    
     @ViewChild("scrollViewHorizontal1") public _scrollViewHorizontal1: ElementRef;
     @ViewChild("scrollViewHorizontal2") public _scrollViewHorizontal2: ElementRef;
     @ViewChild("scrollViewVertical1") public _scrollViewVertical1: ElementRef;
@@ -30,16 +32,11 @@ export class MainComponent implements OnInit {
         this.scrollViewHorizontal2 = this._scrollViewHorizontal2.nativeElement;
         this.scrollViewVertical1 = this._scrollViewVertical1.nativeElement;
         this.scrollViewVertical2 = this._scrollViewVertical2.nativeElement;
-        if (parseInt(platformModule.device.sdkVersion) >= 11) {
-            this.scrollViewHorizontal1.ios.contentInsetAdjustmentBehavior = 2;
-            this.scrollViewHorizontal2.ios.contentInsetAdjustmentBehavior = 2;
-            this.scrollViewVertical1.ios.contentInsetAdjustmentBehavior = 2;
-            this.scrollViewVertical2.ios.contentInsetAdjustmentBehavior = 2;
-        }
         this.items = [];
         for (var count = 0; count < 30; count++) {
             this.items.push(count.toString());
         }
+        this.behaviours = ["Automatic", "ScrollableAxis", "Never", "Always"];
     }
 
     public scrollHorizontal(args: scrollView.ScrollEventData) {
@@ -61,6 +58,14 @@ export class MainComponent implements OnInit {
     public switchNative(value): void {
         this.native = value;
     }
-            
+    public selectedBehaviourChanged(args) {
+        let picker = <ListPicker>args.object;
+        if (parseInt(platformModule.device.sdkVersion) >= 11) {
+            this.scrollViewHorizontal1.ios.contentInsetAdjustmentBehavior = picker.selectedIndex;
+            this.scrollViewHorizontal2.ios.contentInsetAdjustmentBehavior = picker.selectedIndex;
+            this.scrollViewVertical1.ios.contentInsetAdjustmentBehavior = picker.selectedIndex;
+            this.scrollViewVertical2.ios.contentInsetAdjustmentBehavior = picker.selectedIndex;
+        }
+    }            
     
 }
